@@ -1,46 +1,69 @@
-// The app picks a random letter
+//variables
+var alphabet =
+    ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q"
+    ,"r","s","t","u","v","w","x","y","z"];
+var randomIndex = Math.floor(Math.random() * alphabet.length);
 
-// Create a variable that will hold a random number
+var computerChoice = alphabet[randomIndex];
+var wins = 1;
 
-// Get a random number between 1 and 26 and assign it to that variable
+var losses = 0;
 
-var randomNumber;
-randomNumber = Math.floor(Math.random() * 26);
+var guesses = 10;
 
-// Create a variable called alphabet.
-var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
-var randomLetter;
-// Assign an array of strings from A - Z, to that variable.
+var soFar = [];
 
-// Variables to hold number of wins, losses, guesses left, guesses so far.
-    var wins = 0;
-    var losses = 0;
-    var guessesLeft = 0;
-    
-// variables that hold references to the HTML.
-    var winsText = document.getElementById("wins")
-    var lossesText = document.getElementById("losses")
-    var guessesText = document.getElementById("guesses")
-  
-// Use array indexing to randomly pick a letter from that array and assign it to that variable
-randomLetter = alphabet[randomNumber]
 
-// Collect a user input and store it in a variable
-// Compare user input to random letter -- if statement
-// if the user input matches the random letter incriment a variable called wins
-// else decriment a variable called guesses left
-    // if guesses left equals 0 then incriment losses by 1
+// event for the user to press a key
 document.onkeyup = function(event) {
+  var userChoice = event.key;
+  
+ 
+    // reset computer choice if you lose
+    if (guesses <= 0) {
+      
+      losses++;
+     
+      document.getElementById("losses").innerHTML = losses++;
+      
+      alert("You lost!");
+      guesses = 10;
+      
+      document.getElementById("soFar").innerHTML = soFar;
 
-var userGuess = event.key;
+      document.getElementById("guesses").innerHTML = 10;
 
-var computerGuess = alphabet[Math.floor(Math.random() * alphabet.length)];
+      randomIndex = Math.floor(Math.random() * alphabet.length);
 
+      computerChoice = alphabet[randomIndex];
+      
+    }
+    // Computer choice versus user choice
+    if (computerChoice === userChoice) {
+      console.log(computerChoice)
+      alert("You won!");
 
+      document.getElementById("wins").innerHTML = wins++;
 
-//Display wins, losses, guesses left, guesses so far.
-    winsText.textContent = "wins " + wins;
-    lossesText.textContent = "wins " + wins;
-    guessesText.textContent = "wins " + wins;
+      soFar = [];
 
+      document.getElementById("soFar").innerHTML = soFar;
+
+      randomIndex = Math.floor(Math.random() * alphabet.length);
+
+      computerChoice = alphabet[randomIndex];
+
+      //console.log(soFar)
+      guesses = 10;
+
+      document.getElementById("guesses").innerHTML = 10;
+
+    } else {
+      
+      document.getElementById("guesses").innerHTML = guesses--;
+
+      soFar.push(userChoice);
+      
+      document.getElementById("soFar").innerHTML = soFar;
+    }
 }
